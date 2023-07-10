@@ -24,7 +24,7 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/time_header">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="@string/sp_show_time"
             android:title="@string/show_time_title"
@@ -61,7 +61,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/date_header">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="@string/sp_show_date"
             android:title="@string/show_date_title"

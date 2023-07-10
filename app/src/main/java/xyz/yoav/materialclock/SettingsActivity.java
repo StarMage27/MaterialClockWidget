@@ -38,6 +38,7 @@ import com.jaredrummler.android.colorpicker.ColorPickerView;
 import com.jaredrummler.android.colorpicker.ColorPreferenceCompat;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity implements WidgetUpdatedInterface {
 
@@ -129,59 +130,56 @@ public class SettingsActivity extends AppCompatActivity implements WidgetUpdated
             widgetOrientation.setOnPreferenceChangeListener(listener);
         }
 
-        Preference.OnPreferenceChangeListener listener = new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                SharedPreferences sharedPref = getActivity().getSharedPreferences(getString(R.string.sp_main), Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                if (getString(R.string.sp_clock_color).equals(preference.getKey()))
-                    editor.putInt(getString(R.string.sp_clock_color), (int) newValue);
-                if (getString(R.string.sp_show_time).equals(preference.getKey()))
-                    editor.putBoolean(getString(R.string.sp_show_time), (boolean) newValue);
-                if (getString(R.string.sp_font).equals(preference.getKey()))
-                    editor.putString(getString(R.string.sp_font), (String) newValue);
-                if (getString(R.string.sp_time_format).equals(preference.getKey()))
-                    editor.putString(getString(R.string.sp_time_format), (String) newValue);
-                if (getString(R.string.sp_time_size).equals(preference.getKey()))
-                    editor.putInt(getString(R.string.sp_time_size), (int) newValue);
-                if (getString(R.string.sp_time_align).equals(preference.getKey()))
-                    editor.putInt(getString(R.string.sp_time_align), Integer.parseInt((String) newValue));
-                if (getString(R.string.sp_date_align).equals(preference.getKey()))
-                    editor.putInt(getString(R.string.sp_date_align), Integer.parseInt((String) newValue));
-                if (getString(R.string.sp_date_size).equals(preference.getKey()))
-                    editor.putInt(getString(R.string.sp_date_size), (int) newValue);
-                if (getString(R.string.sp_date_color).equals(preference.getKey()))
-                    editor.putInt(getString(R.string.sp_date_color), (int) newValue);
-                if (getString(R.string.sp_show_date).equals(preference.getKey()))
-                    editor.putBoolean(getString(R.string.sp_show_date), (boolean) newValue);
-                if (getString(R.string.sp_date_format).equals(preference.getKey()))
-                    editor.putString(getString(R.string.sp_date_format), (String) newValue);
-                if (getString(R.string.sp_layout).equals(preference.getKey()))
-                    editor.putInt(getString(R.string.sp_layout), Integer.parseInt((String) newValue));
+        Preference.OnPreferenceChangeListener listener = (preference, newValue) -> {
+            SharedPreferences sharedPref = requireActivity().getSharedPreferences(getString(R.string.sp_main), Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            if (getString(R.string.sp_clock_color).equals(preference.getKey()))
+                editor.putInt(getString(R.string.sp_clock_color), (int) newValue);
+            if (getString(R.string.sp_show_time).equals(preference.getKey()))
+                editor.putBoolean(getString(R.string.sp_show_time), (boolean) newValue);
+            if (getString(R.string.sp_font).equals(preference.getKey()))
+                editor.putString(getString(R.string.sp_font), (String) newValue);
+            if (getString(R.string.sp_time_format).equals(preference.getKey()))
+                editor.putString(getString(R.string.sp_time_format), (String) newValue);
+            if (getString(R.string.sp_time_size).equals(preference.getKey()))
+                editor.putInt(getString(R.string.sp_time_size), (int) newValue);
+            if (getString(R.string.sp_time_align).equals(preference.getKey()))
+                editor.putInt(getString(R.string.sp_time_align), Integer.parseInt((String) newValue));
+            if (getString(R.string.sp_date_align).equals(preference.getKey()))
+                editor.putInt(getString(R.string.sp_date_align), Integer.parseInt((String) newValue));
+            if (getString(R.string.sp_date_size).equals(preference.getKey()))
+                editor.putInt(getString(R.string.sp_date_size), (int) newValue);
+            if (getString(R.string.sp_date_color).equals(preference.getKey()))
+                editor.putInt(getString(R.string.sp_date_color), (int) newValue);
+            if (getString(R.string.sp_show_date).equals(preference.getKey()))
+                editor.putBoolean(getString(R.string.sp_show_date), (boolean) newValue);
+            if (getString(R.string.sp_date_format).equals(preference.getKey()))
+                editor.putString(getString(R.string.sp_date_format), (String) newValue);
+            if (getString(R.string.sp_layout).equals(preference.getKey()))
+                editor.putInt(getString(R.string.sp_layout), Integer.parseInt((String) newValue));
 
 
-                editor.apply();
-                return true;
-            }
+            editor.apply();
+            return true;
         };
 
     }
 
     private void setupPreviewFrame() {
-        ImageView preview = findViewById(R.id.bg);
-        final WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 3);
-            return;
-        }
-        final Drawable wallpaperDrawable = wallpaperManager.getDrawable();
-        preview.setImageDrawable(wallpaperDrawable);
+//        ImageView preview = findViewById(R.id.bg);
+//        final WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 3);
+//            return;
+//        }
+//        final Drawable wallpaperDrawable = wallpaperManager.getDrawable();
+//        preview.setImageDrawable(wallpaperDrawable);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        setupPreviewFrame(); //thats here to setup the preview window after permission to fetch the user wallpaper has being approved
+        setupPreviewFrame(); //that's here to setup the preview window after permission to fetch the user wallpaper has being approved
     }
 
     private void widgetSetup() {
@@ -216,7 +214,7 @@ public class SettingsActivity extends AppCompatActivity implements WidgetUpdated
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.savebtn) {
-            finish(); //thats enough. finishing this activity will activate the widget
+            finish(); //that's enough. finishing this activity will activate the widget
         }
         return super.onOptionsItemSelected(item);
     }
